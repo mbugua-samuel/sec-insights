@@ -1,8 +1,8 @@
 import os
 from enum import Enum
 from typing import List, Union, Optional
+
 from pydantic import BaseSettings, AnyHttpUrl, validator
-from multiprocessing import cpu_count
 
 
 class AppConfig(BaseSettings.Config):
@@ -81,7 +81,7 @@ class Settings(PreviewPrefixedSettings):
     # BACKEND_CORS_ORIGINS is a JSON-formatted list of origins
     # e.g: '["http://localhost", "http://localhost:4200", "http://localhost:3000", \
     # "http://localhost:8080", "http://local.dockertoolbox.tiangolo.com"]'
-    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
+    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = ["http://localhost", "http://localhost:8000", "http://localhost:3000", "http://127.0.0.1:3000", "https://llama-app-backend.onrender.com", "https://llama-app-frontend.vercel.app", "http://secinsights.ai", "http://www.secinsights.ai", "https://secinsights.ai", "https://www.secinsights.ai"]
 
     @property
     def VERBOSE(self) -> bool:

@@ -10,6 +10,7 @@ function getTickerFilter(inputValue: string) {
   const lowerCasedInputValue = inputValue.toLowerCase();
 
   return function tickerFilter(ticker: Ticker) {
+    console.error("Ticker {}", ticker)
     return (
       !inputValue ||
       ticker.fullName.toLowerCase().includes(lowerCasedInputValue) ||

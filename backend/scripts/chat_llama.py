@@ -125,7 +125,7 @@ class ConversationCmd(cmd.Cmd):
             print(f"Error: {response.text}")
 
     def do_message(self, message):
-        "Send a user message to the current conversation and get back the AI's response: MESSAGE <Your message>"
+        """Send a user message to the current conversation and get back the AI's response: MESSAGE <Your message>"""
         if not self.conversation_id:
             print("No active conversation. Use CREATE to start a new conversation.")
             return

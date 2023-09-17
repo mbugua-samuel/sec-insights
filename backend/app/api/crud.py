@@ -123,3 +123,20 @@ async def upsert_document_by_url(
     upserted_doc = schema.Document.from_orm(result.scalars().first())
     await db.commit()
     return upserted_doc
+
+async def upsert_document_by_url(
+    db: AsyncSession, document: schema.Document
+) -> schema.Document:
+    """
+    Upsert a document
+    """
+    stmt = insert(Document).values(**document.dict(exclude_none=True))
+    stmt = stmt.on_conflict_do_update(
+        index_elements=[Document.url],
+        set_=document.dict(include={"metadata_map"}),
+    )
+    stmt = stmt.returning(Document)
+    result = await db.execute(stmt)
+    upserted_doc = schema.Document.from_orm(result.scalars().first())
+    await db.commit()
+    return upserted_doc

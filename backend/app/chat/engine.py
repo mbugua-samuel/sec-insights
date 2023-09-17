@@ -41,7 +41,7 @@ from app.schema import (
     Document as DocumentSchema,
     Conversation as ConversationSchema,
     DocumentMetadataKeysEnum,
-    SecDocumentMetadata,
+    DocumentMetadata,
 )
 from app.models.db import MessageRoleEnum, MessageStatusEnum
 from app.chat.constants import (
@@ -94,9 +94,9 @@ def fetch_and_read_document(
 
 
 def build_description_for_document(document: DocumentSchema) -> str:
-    if DocumentMetadataKeysEnum.SEC_DOCUMENT in document.metadata_map:
-        sec_metadata = SecDocumentMetadata.parse_obj(
-            document.metadata_map[DocumentMetadataKeysEnum.SEC_DOCUMENT]
+    if DocumentMetadataKeysEnum.KE_DOCUMENT in document.metadata_map:
+        sec_metadata = DocumentMetadata.parse_obj(
+            document.metadata_map[DocumentMetadataKeysEnum.KE_DOCUMENT]
         )
         time_period = (
             f"{sec_metadata.year} Q{sec_metadata.quarter}"
@@ -275,7 +275,7 @@ async def get_chat_engine(
     api_query_engine_tools = [
         get_api_query_engine_tool(doc, service_context)
         for doc in conversation.documents
-        if DocumentMetadataKeysEnum.SEC_DOCUMENT in doc.metadata_map
+        if DocumentMetadataKeysEnum.KE_DOCUMENT in doc.metadata_map
     ]
 
     quantitative_question_engine = SubQuestionQueryEngine.from_defaults(

@@ -7,6 +7,8 @@ from uuid import UUID
 from app.api.deps import get_db
 from app.api import crud
 from app import schema
+from app.db.session import SessionLocal
+from app.schema import Document
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -46,3 +48,19 @@ async def get_document(
         raise HTTPException(status_code=404, detail="Document not found")
 
     return docs[0]
+
+@router.post("/upsert-doc")
+async def upsert_document(
+    document: Document,
+) -> None:
+    """
+    Add document
+    """
+    if not document.url or not document.url.startswith('http'):
+        print("DOC_URL must be an http(s) based url value")
+        return
+    doc = Document(url=document.url, metadata_map=document.metadata_map)
+
+    async with SessionLocal() as db:
+        document = await crud.upsert_document_by_url(db, doc)
+        print(f"Upserted document. Database ID:\n{document.id}")

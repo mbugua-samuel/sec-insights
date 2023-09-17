@@ -124,26 +124,27 @@ class DocumentMetadataKeysEnum(str, Enum):
     Enum for the keys of the metadata map for a document
     """
 
-    SEC_DOCUMENT = "sec_document"
+    KE_DOCUMENT = "ke_document"
 
 
-class SecDocumentTypeEnum(str, Enum):
+class DocumentTypeEnum(str, Enum):
     """
     Enum for the type of sec document
     """
 
-    TEN_K = "10-K"
-    TEN_Q = "10-Q"
+    FINANCIAL_Q1 = "Q1"
+    FINANCIAL_HALF_YEAR = "HALF_YEAR"
+    FINANCIAL_Q3 = "Q3"
+    FINANCIAL_FULL_YEAR = "FULL_YEAR"
 
-
-class SecDocumentMetadata(BaseModel):
+class DocumentMetadata(BaseModel):
     """
     Metadata for a document that is a sec document
     """
 
     company_name: str
     company_ticker: str
-    doc_type: SecDocumentTypeEnum
+    doc_type: DocumentTypeEnum
     year: int
     quarter: Optional[int]
     accession_number: Optional[str]

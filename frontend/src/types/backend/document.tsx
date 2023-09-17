@@ -1,6 +1,8 @@
 export enum BackendDocumentType {
-  TenK = "10-K",
-  TenQ = "10-Q",
+  FINANCIAL_Q1 = "Q1",
+  FINANCIAL_HALF_YEAR = "HALF_YEAR",
+  FINANCIAL_Q3 = "Q3",
+  FINANCIAL_FULL_YEAR = "FULL_YEAR",
 }
 
 export interface BackendDocument {
@@ -12,7 +14,7 @@ export interface BackendDocument {
 }
 
 export interface BackendMetadataMap {
-  sec_document: BackendSecDocument;
+  ke_document: BackendSecDocument;
 }
 
 export interface BackendSecDocument {

@@ -1,16 +1,16 @@
 from app.schema import (
     Document as DocumentSchema,
     DocumentMetadataKeysEnum,
-    SecDocumentMetadata,
+    DocumentMetadata,
 )
 
 
 def build_title_for_document(document: DocumentSchema) -> str:
-    if DocumentMetadataKeysEnum.SEC_DOCUMENT not in document.metadata_map:
+    if DocumentMetadataKeysEnum.KE_DOCUMENT not in document.metadata_map:
         return "No Title Document"
 
-    sec_metadata = SecDocumentMetadata.parse_obj(
-        document.metadata_map[DocumentMetadataKeysEnum.SEC_DOCUMENT]
+    sec_metadata = DocumentMetadata.parse_obj(
+        document.metadata_map[DocumentMetadataKeysEnum.KE_DOCUMENT]
     )
     time_period = (
         f"{sec_metadata.year} Q{sec_metadata.quarter}"

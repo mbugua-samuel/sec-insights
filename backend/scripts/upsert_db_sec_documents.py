@@ -1,21 +1,22 @@
-from pathlib import Path
-from fire import Fire
-from tqdm import tqdm
 import asyncio
-from pytickersymbols import PyTickerSymbols
-from file_utils import get_available_filings, Filing
-from stock_utils import get_stocks_by_symbol, Stock
+from pathlib import Path
+
 from fastapi.encoders import jsonable_encoder
+from fire import Fire
+from pytickersymbols import PyTickerSymbols
+from tqdm import tqdm
+
+from app.api import crud
+from app.db.session import SessionLocal
 from app.models.db import Document
 from app.schema import (
-    SecDocumentMetadata,
+    DocumentMetadata,
     DocumentMetadataMap,
     DocumentMetadataKeysEnum,
-    SecDocumentTypeEnum,
-    Document,
+    Document, DocumentTypeEnum,
 )
-from app.db.session import SessionLocal
-from app.api import crud
+from file_utils import get_available_filings, Filing
+from stock_utils import get_stocks_by_symbol, Stock
 
 DEFAULT_URL_BASE = "https://dl94gqvzlh4k8.cloudfront.net"
 DEFAULT_DOC_DIR = "data/"
@@ -27,11 +28,15 @@ async def upsert_document(doc_dir: str, stock: Stock, filing: Filing, url_base: 
     doc_path = Path(filing.file_path).relative_to(doc_dir)
     url_path = url_base.rstrip("/") + "/" + str(doc_path).lstrip("/")
     doc_type = (
-        SecDocumentTypeEnum.TEN_K
-        if filing.filing_type == "10-K"
-        else SecDocumentTypeEnum.TEN_Q
+        DocumentTypeEnum.FINANCIAL_Q1
+        if filing.filing_type == "Q1"
+        else DocumentTypeEnum.FINANCIAL_HALF_YEAR
+        if filing.filing_type == "HALF_YEAR"
+        else DocumentTypeEnum.FINANCIAL_Q3
+        if filing.filing_type == "Q3"
+        else DocumentTypeEnum.FINANCIAL_FULL_YEAR
     )
-    sec_doc_metadata = SecDocumentMetadata(
+    sec_doc_metadata = DocumentMetadata(
         company_name=stock.name,
         company_ticker=stock.symbol,
         doc_type=doc_type,
@@ -44,7 +49,7 @@ async def upsert_document(doc_dir: str, stock: Stock, filing: Filing, url_base: 
         date_as_of_change=filing.date_as_of_change,
     )
     metadata_map: DocumentMetadataMap = {
-        DocumentMetadataKeysEnum.SEC_DOCUMENT: jsonable_encoder(
+        DocumentMetadataKeysEnum.KE_DOCUMENT: jsonable_encoder(
             sec_doc_metadata.dict(exclude_none=True)
         )
     }

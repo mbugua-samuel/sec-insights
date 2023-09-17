@@ -1,7 +1,7 @@
-import type { SecDocument, Ticker, DocumentType } from "~/types/document";
+import type { Document, Ticker, DocumentType } from "~/types/document";
 import { SelectOption } from "~/types/selection";
 
-export function getAllTickers(documents: SecDocument[]): Ticker[] {
+export function getAllTickers(documents: Document[]): Ticker[] {
   const result: Ticker[] = [];
   const seen: { [key: string]: boolean } = {};
 
@@ -24,24 +24,24 @@ export function getAllTickers(documents: SecDocument[]): Ticker[] {
 export function filterByTickerAndType(
   ticker: string,
   docType: DocumentType,
-  documents: SecDocument[]
-): SecDocument[] {
+  documents: Document[]
+): Document[] {
   if (!ticker) {
     return [];
   }
   return documents.filter(
-    (document) => document.ticker === ticker && document.docType === docType
+    (document) => document.ticker === ticker /*&& document.docType === docType*/
   );
 }
 
 export function findDocumentById(
   id: string,
-  documents: SecDocument[]
-): SecDocument | null {
+  documents: Document[]
+): Document | null {
   return documents.find((val) => val.id === id) || null;
 }
 
-export function sortDocuments(selectedDocuments: SecDocument[]): SecDocument[] {
+export function sortDocuments(selectedDocuments: Document[]): Document[] {
   return selectedDocuments.sort((a, b) => {
     // Sort by fullName
     const nameComparison = a.fullName.localeCompare(b.fullName);
