@@ -12,6 +12,8 @@ def build_title_for_document(document: DocumentSchema) -> str:
     sec_metadata = DocumentMetadata.parse_obj(
         document.metadata_map[DocumentMetadataKeysEnum.KE_DOCUMENT]
     )
+    print("CONS METADATA {}", sec_metadata)
+
     time_period = (
         f"{sec_metadata.year} Q{sec_metadata.quarter}"
         if sec_metadata.quarter is not None

@@ -84,7 +84,8 @@ def fetch_and_read_document(
         with open(temp_file_path, "wb") as temp_file:
             with requests.get(document.url, stream=True) as r:
                 r.raise_for_status()
-                for chunk in r.iter_content(chunk_size=8192):
+                # for chunk in r.iter_content(chunk_size=8192):
+                for chunk in r.iter_content(chunk_size=1000):
                     temp_file.write(chunk)
             temp_file.seek(0)
             reader = PDFReader()
@@ -297,16 +298,16 @@ Any questions about company-related headwinds, tailwinds, risks, sentiments, or 
 """.strip(),
             ),
         ),
-        QueryEngineTool(
-            query_engine=quantitative_question_engine,
-            metadata=ToolMetadata(
-                name="quantitative_question_engine",
-                description="""
-A query engine that can answer quantitative questions about a set of SEC financial documents that the user pre-selected for the conversation.
-Any questions about company-related financials or other metrics should be asked here.
-""".strip(),
-            ),
-        ),
+#         QueryEngineTool(
+#             query_engine=quantitative_question_engine,
+#             metadata=ToolMetadata(
+#                 name="quantitative_question_engine",
+#                 description="""
+# A query engine that can answer quantitative questions about a set of SEC financial documents that the user pre-selected for the conversation.
+# Any questions about company-related financials or other metrics should be asked here.
+# """.strip(),
+#             ),
+#         ),
     ]
 
     chat_llm = OpenAI(
