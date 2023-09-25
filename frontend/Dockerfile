@@ -5,10 +5,10 @@ FROM node:14
 WORKDIR /app
 
 # Copy the package.json and package-lock.json files to the container
-COPY package.json package-lock.json ./
+COPY package.json ./
 
 # Install the dependencies
-RUN npm ci
+RUN npm ci --only=production
 
 # Copy the rest of the application code to the container
 COPY . .
