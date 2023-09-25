@@ -36,6 +36,7 @@ class BackendClient {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(body),
+            mode: 'no-cors'
         });
 
         if (!res.ok) {
