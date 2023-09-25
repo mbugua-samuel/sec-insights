@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install the dependencies
-RUN npm ci --only=production
+RUN npm ci
 
 # Copy the rest of the application code to the container
 COPY . .
