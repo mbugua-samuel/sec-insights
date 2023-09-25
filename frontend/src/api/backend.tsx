@@ -22,7 +22,7 @@ interface GetConversationReturnType {
 class BackendClient {
     private async get(endpoint: string) {
         const url = backendUrl + endpoint;
-        const res = await fetch(url);
+        const res = await fetch(url, { mode: 'no-cors'});
 
         if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
