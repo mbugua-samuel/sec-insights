@@ -69,7 +69,7 @@ class Settings(PreviewPrefixedSettings):
     DATABASE_URL: str
     LOG_LEVEL: str = "DEBUG"
     IS_PULL_REQUEST: bool = False
-    RENDER: bool = False
+    RENDER: bool = True
     S3_BUCKET_NAME: str
     S3_ASSET_BUCKET_NAME: str
     CDN_BASE_URL: str
@@ -96,7 +96,7 @@ class Settings(PreviewPrefixedSettings):
         Used for setting S3 endpoint URL in the s3fs module.
         When running locally, this should be set to the localstack endpoint.
         """
-        return None if self.RENDER else settings.S3_ENDPOINT_URL
+        return None if self.RENDER else "http://localhost:4566"
 
     @validator("BACKEND_CORS_ORIGINS", pre=True)
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:
