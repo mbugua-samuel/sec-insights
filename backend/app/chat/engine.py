@@ -104,7 +104,7 @@ def build_description_for_document(document: DocumentSchema) -> str:
             if sec_metadata.quarter
             else str(sec_metadata.year)
         )
-        return f"A SEC {sec_metadata.doc_type.value} filing describing the financials of {sec_metadata.company_name} ({sec_metadata.company_ticker}) for the {time_period} time period."
+        return f"A {sec_metadata.doc_type.value} financial document describing the financials of {sec_metadata.company_name} ({sec_metadata.company_ticker}) for the {time_period} time period."
     return "A document containing useful information that the user pre-selected to discuss with the assistant."
 
 
