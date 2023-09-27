@@ -363,7 +363,7 @@ export const RenderConversations: React.FC<IRenderConversation> = ({
               <HiOutlineChatAlt2 size={40} />
             </div>
             <div className="mb-2 w-3/4 text-center text-lg font-bold">
-              Ask SEC Insights questions about the documents you&apos;ve
+              Ask  Earnings Report Analyzer questions about the documents you&apos;ve
               selected, such as:
             </div>
             <div className="m-auto flex w-full flex-wrap justify-center">
@@ -373,7 +373,7 @@ export const RenderConversations: React.FC<IRenderConversation> = ({
                 }
                 className="m-1 flex-shrink rounded-full border border-gray-60 px-3 py-1 hover:bg-gray-15"
               >
-                Which company had the highest revenue?
+                Which Company had the highest revenue?
               </button>
               <button
                 onClick={() => setUserMessage("What are their main business focus areas?")}
@@ -388,6 +388,22 @@ export const RenderConversations: React.FC<IRenderConversation> = ({
                 className="m-1 flex-shrink rounded-full border border-gray-60 px-3 py-1 hover:bg-gray-15"
               >
                 What are the biggest discussed risks?
+              </button>
+              <button
+                onClick={() =>
+                  setUserMessage("What are the biggest discussed risks?")
+                }
+                className="m-1 flex-shrink rounded-full border border-gray-60 px-3 py-1 hover:bg-gray-15"
+              >
+                What was Increase in Net Interest Income?
+              </button>
+              <button
+                onClick={() =>
+                  setUserMessage("What are the biggest discussed risks?")
+                }
+                className="m-1 flex-shrink rounded-full border border-gray-60 px-3 py-1 hover:bg-gray-15"
+              >
+                What was change in Non-funded income (NFI)?
               </button>
             </div>
           </div>
