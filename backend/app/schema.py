@@ -136,6 +136,8 @@ class DocumentTypeEnum(str, Enum):
     FINANCIAL_HALF_YEAR = "HALF_YEAR"
     FINANCIAL_Q3 = "Q3"
     FINANCIAL_FULL_YEAR = "FULL_YEAR"
+    FINANCIAL_ABRIDGED_YEAR = "FULL_YEAR_ABRIDGED"
+
 
 class DocumentMetadata(BaseModel):
     """
@@ -146,7 +148,7 @@ class DocumentMetadata(BaseModel):
     company_ticker: str
     doc_type: DocumentTypeEnum
     year: int
-    quarter: Optional[int]
+    # quarter: Optional[int]
     accession_number: Optional[str]
     cik: Optional[str]
     period_of_report_date: Optional[datetime]

@@ -36,11 +36,13 @@ def __setup_logging(log_level: str):
     )
     root_logger = logging.getLogger()
     root_logger.setLevel(log_level)
+   
 
     stream_handler = logging.StreamHandler(sys.stdout)
     stream_handler.setFormatter(log_formatter)
     root_logger.addHandler(stream_handler)
-    logger.info("Set up logging with log level %s", log_level)
+    logger.info("INSIDE SETUP LOGGING")
+    logger.info("Sets up logging with log level %s", log_level)
 
 
 def __setup_sentry():
@@ -114,6 +116,7 @@ app.mount(f"/{settings.LOADER_IO_VERIFICATION_STR}", loader_io_router)
 def start():
     print("Running in AppEnvironment: " + settings.ENVIRONMENT.value)
     __setup_logging(settings.LOG_LEVEL)
+    logger.debug("INSIDE START LOGGING LEVEL IS")
     __setup_sentry()
     """Launched with `poetry run start` at root level"""
     if settings.RENDER:

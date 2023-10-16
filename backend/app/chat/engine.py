@@ -100,9 +100,10 @@ def build_description_for_document(document: DocumentSchema) -> str:
             document.metadata_map[DocumentMetadataKeysEnum.KE_DOCUMENT]
         )
         time_period = (
-            f"{sec_metadata.year} Q{sec_metadata.quarter}"
-            if sec_metadata.quarter
-            else str(sec_metadata.year)
+           # f"{sec_metadata.year} Q{sec_metadata.quarter}"
+           # if sec_metadata.quarter
+           # else str(sec_metadata.year)
+           str(sec_metadata.year)
         )
         return f"A SEC {sec_metadata.doc_type.value} filing describing the financials of {sec_metadata.company_name} ({sec_metadata.company_ticker}) for the {time_period} time period."
     return "A document containing useful information that the user pre-selected to discuss with the assistant."
@@ -135,7 +136,7 @@ async def build_doc_id_to_index_map(
     fs: Optional[AsyncFileSystem] = None,
 ) -> Dict[str, VectorStoreIndex]:
     persist_dir = f"{settings.S3_BUCKET_NAME}"
-
+    print("IN BUILD doc_id to index_map Persist DIR is", persist_dir)
     vector_store = await get_vector_store_singleton()
     try:
         try:
@@ -245,9 +246,13 @@ async def get_chat_engine(
 ) -> OpenAIAgent:
     service_context = get_tool_service_context([callback_handler])
     s3_fs = get_s3_fs()
+    print("I AM IN GET_CHAT_ENGINE", conversation.documents, "END OF CONVERSATION DOCS")
+    print("File System is", s3_fs)
+    
     doc_id_to_index = await build_doc_id_to_index_map(
         service_context, conversation.documents, fs=s3_fs
     )
+    
     id_to_doc: Dict[str, DocumentSchema] = {
         str(doc.id): doc for doc in conversation.documents
     }

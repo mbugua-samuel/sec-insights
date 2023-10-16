@@ -16,7 +16,7 @@ services:
     env_file:
       - .env
     environment:
-      BACKEND_CORS_ORIGINS: '["http://localhost", "http://localhost:8000", "http://finbot.turnkeyafrica.com", "https://finbot.turnkeyafrica.com"]'
+      BACKEND_CORS_ORIGINS: '["http://localhost", "http://localhost:8000", "http://192.168.176.5:3000","http://localhost:3000","http://finbot.turnkeyafrica.com", "https://finbot.turnkeyafrica.com"]'
     networks:
       - llama
 

@@ -12,6 +12,7 @@ def get_custom_response_synth(
     service_context: ServiceContext, documents: List[DocumentSchema]
 ) -> BaseSynthesizer:
     doc_titles = "\n".join("- " + build_title_for_document(doc) for doc in documents)
+
     refine_template_str = f"""
 A user has selected a set of SEC filing documents and has asked a question about them. \
 The SEC documents have the following titles:
@@ -33,6 +34,31 @@ Refined Answer:
         prompt_type=PromptType.REFINE,
     )
 
+    # Start of  BANKS Refine template
+
+    refine_template_str_banks = f"""
+A user has selected a set of Financial documents and has asked a question about them. \
+The Financial documents have the following titles:
+{doc_titles}
+The original query is as follows: {{query_str}}
+We have provided an existing answer: {{existing_answer}}
+We have the opportunity to refine the existing answer \
+(only if needed) with some more context below.
+------------
+{{context_msg}}
+------------
+Given the new context, refine the original answer to better \
+answer the query. \
+If the context isn't useful, return the original answer.
+Refined Answer:
+""".strip()
+    refine_prompt_banks = RefinePrompt(
+        template=refine_template_str_banks,
+        prompt_type=PromptType.REFINE,
+    )
+
+    # Start of  BANKS Refine template
+
     qa_template_str = f"""
 A user has selected a set of SEC filing documents and has asked a question about them. \
 The SEC documents have the following titles:
@@ -51,6 +77,27 @@ Answer:
         prompt_type=PromptType.QUESTION_ANSWER,
     )
 
+
+    qa_template_str_banks = f"""
+A user has selected a set of Financial documents and has asked a question about them. \
+The Financial documents have the following titles:
+{doc_titles}
+Context information is below.
+---------------------
+{{context_str}}
+---------------------
+Given the context information and not prior knowledge, \
+answer the query.
+Query: {{query_str}}
+Answer:
+""".strip()
+    qa_prompt_banks = QuestionAnswerPrompt(
+        template=qa_template_str_banks,
+        prompt_type=PromptType.QUESTION_ANSWER,
+    )
+
+    print("The QA Prompt is as follows", qa_prompt_banks, "END OF QA PROMPT")
+    print("The REFINE Prompt is as follows", refine_prompt_banks, "END OF Refine PROMPT")
     return get_response_synthesizer(
         service_context,
         refine_template=refine_prompt,

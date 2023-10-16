@@ -24,6 +24,7 @@ from app.models.db import (
 )
 from uuid import UUID
 
+
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
@@ -36,6 +37,7 @@ async def create_conversation(
     """
     Create a new conversation
     """
+    
     return await crud.create_conversation(db, payload)
 
 
@@ -92,7 +94,7 @@ async def message_conversation(
         role=MessageRoleEnum.user,
         status=MessageStatusEnum.SUCCESS,
     )
-
+    
     send_chan, recv_chan = anyio.create_memory_object_stream(100)
 
     async def event_publisher():

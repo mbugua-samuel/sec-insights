@@ -67,9 +67,10 @@ class BackendClient {
     }
 
     public async fetchDocuments(): Promise<Document[]> {
+        console.log("INSIDE FETCH")
         const endpoint = `api/document/`;
         const res = await this.get(endpoint);
-
+        console.log("VALUE OF RES FETCH", res)
         const data = (await res.json()) as BackendDocument[];
         return fromBackendDocumentToFrontend(data);
     }

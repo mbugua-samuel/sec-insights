@@ -31,7 +31,6 @@ async def get_documents(
 
     if len(docs) == 0:
         raise HTTPException(status_code=404, detail="Document(s) not found")
-
     return docs
 
 
